@@ -1,0 +1,2 @@
+# trainWord2Vec_WikiCorpus
+使用英文维基百科训练一个word2vec模型，并对其进行评估
