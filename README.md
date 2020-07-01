@@ -2,7 +2,7 @@
 使用英文维基百科训练一个word2vec模型，并对其进行评估
 ## 环境
 - （Intel(R) Core(TM) i7-8550U & 16G）
-- Anaconda 3.1
+- Anaconda 3.0
 - gensim
 
 ## 获取语料
@@ -56,7 +56,7 @@ if __name__ == "__main__":
 - WikiCorpus，wiki数据的抽取处理类，能对下载的数据（articles.xml.bz2）进行抽取处理，得到纯净的文本语料。
  
 
-
+运行process_wiki.py，可以看到 *Finished Saved 4860724 articles* ，可以看到，维基百科2020/06/20的备份，文章共4860724篇。（文件很大，使用notepad++打开）
 ```
 2020-07-01 09:49:33,419: INFO: running process_wiki.py enwiki-20200620-pages-articles.xml.bz2 wiki.en.txt
 C:\Users\baiyo\anaconda3\lib\site-packages\gensim\utils.py:1268: UserWarning: detected Windows; aliasing chunkize to chunkize_serial
@@ -72,9 +72,23 @@ C:\Users\baiyo\anaconda3\lib\site-packages\gensim\utils.py:1268: UserWarning: de
 
 ## 词向量训练
 
+这是使用word2vec训练词向量最核心的部分，代码较为简单，但困难在于参数的微调训练。
+去掉logging后只剩下几行，其中核心就是
+
+```python
+class gensim.models.word2vec.Word2Vec(sentences=None, size=100, alpha=0.025, window=5, min_count=5, max_vocab_size=None, sample=0.001, seed=1, workers=3, min_alpha=0.0001, sg=0, hs=0, negative=5, cbow_mean=1, hashfxn=<built-in function hash>, iter=5, null_word=0, trim_rule=None, sorted_vocab=1, batch_words=10000)
+```
+初学者可能会了解到的一些参数有：
+- sentences ：要训练的句子集合
+- size ：表示训练出的词向量有几维
+- alpha ：机器学习中的学习率，逐渐收敛于min_count
+- window ：但前词能前后看的字数
+- workers ：线程数目，一般不大于4
+- min_count ：若某个词出現的次数小于min_count，那它就不会被视为训练对象
+
 ## 词向量实验
 
 ## Note
 
-处理数据：大约 小时后，得到 G的wiki.en.txt文件
-训练模型： 
+- 获取语料：运行process_wiki.py，大约4小时后，得到 G的wiki_texts.txt文件
+- 训练模型： 
