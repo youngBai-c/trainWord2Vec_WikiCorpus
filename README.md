@@ -8,7 +8,9 @@
 ## 获取语料
 
 
-训练词向量的第一步是取得一个合适的数据集。word2vec是基于非监督式学习的，所以一般情况下我们需要数据集语料越大越全的，这样才会训练出一个较为理想的模型。挑选数据集是维基百科定期更新语料。选择下载的是
+训练词向量的第一步是取得一个合适的数据集。
+word2vec是基于非监督式学习的，所以一般情况下我们需要数据集语料越大越全的，这样才会训练出一个较为理想的模型。挑选数据集是维基百科定期更新语料。
+选择下载的是
 **pages-articles.xml.bz2结尾的数据集**（*注意：不是pages-articles-multistream.xml.bz2 结尾的数据集*），否则在处理时会出现一些异常而无法解析。该数据集使用原生链接下载非常慢，推荐使用**迅雷工具下载**(大约一小时左右)
 
 下载等待的时间，首先安装好gensim，本教程使用gensim来训练word2vec模型。在anaconda prompt使用命令行：
@@ -22,7 +24,33 @@ pip install --upgrade gensim
 维基百科语料下载完成，得到的是一份xml文件，不用担心怎么使用，gensim内置的WikiCorpus类可以方便提取
 文章的标题与内容。具体方法是get_texts( )
 
-process_wiki.py
+```python
+import logging
+import sys
+
+from gensim.corpora import WikiCorpus
+
+def main():
+
+    if len(sys.argv) != 2:
+        print("Usage: python3 " + sys.argv[0] + " wiki_data_path")
+        exit()
+
+    logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+    wiki_corpus = WikiCorpus(sys.argv[1], dictionary={})
+    texts_num = 0
+
+    with open("wiki_texts.txt",'w',encoding='utf-8') as output:
+        for text in wiki_corpus.get_texts():
+            output.write(' '.join(text) + '\n')
+            texts_num += 1
+            if texts_num % 10000 == 0:
+                logging.info("已處理 %d 篇文章" % texts_num)
+
+if __name__ == "__main__":
+    main()
+
+```
 
 - get_texts()：迭代每一篇文章，返回一个tokens list
 - WikiCorpus，wiki数据的抽取处理类，能对下载的数据（articles.xml.bz2）进行抽取处理，得到纯净的文本语料。
