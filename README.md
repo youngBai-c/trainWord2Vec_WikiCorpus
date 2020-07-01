@@ -17,3 +17,24 @@ pip install --upgrade gensim
 
 
 ### 数据处理
+> 将XML文件转换为Text格式，使用gensim.corpora中的WikiCorpus函数来处理，具体方法是get_texts( )
+
+process_wiki.py
+
+- get_texts()：迭代每一篇文章，返回一个tokens list
+- WikiCorpus，wiki数据的抽取处理类，能对下载的数据（articles.xml.bz2）进行抽取处理，得到纯净的文本语料。
+ 
+在处理数据 分钟后（i7-8550U & 16G），得到 G的wiki.en.text文件
+
+```
+2020-07-01 05:15:28,836: INFO: running process_wiki.py enwiki-20200620-pages-articles.xml.bz2 wiki.en.text
+C:\Users\baiyo\anaconda3\lib\site-packages\gensim\utils.py:1268: UserWarning: detected Windows; aliasing chunkize to chunkize_serial
+  warnings.warn("detected %s; aliasing chunkize to chunkize_serial" % entity)
+2020-07-01 05:17:04,298: INFO: Saved 10000 articles
+2020-07-01 05:18:30,749: INFO: Saved 20000 articles
+....
+2020-07-01 09:13:15,599: INFO: Saved 4850000 articles
+2020-07-01 09:13:44,882: INFO: Saved 4860000 articles
+2020-07-01 09:13:47,866: INFO: finished iterating over Wikipedia corpus of 4860724 documents with 2755160976 positions (total 20358442 articles, 2827402342 positions before pruning articles shorter than 50 words)
+2020-07-01 09:13:47,998: INFO: Finished Saved 4860724 articles
+```
