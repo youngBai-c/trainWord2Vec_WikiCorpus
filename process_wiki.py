@@ -33,10 +33,7 @@ if __name__ == '__main__':
     for text in wiki.get_texts():
     
         if six.PY3:
-            output.write(str(b'', 'utf-8') + '\n')
-        #   ###another method###
-        #    output.write(
-        #            space.join(map(lambda x:x.decode("utf-8"), text)) + '\n')
+            output.write(space.join(map(lambda x:x.decode("utf-8"), text)) + '\n')
         else:
             output.write(space.join(text) + "\n")
         i = i + 1
