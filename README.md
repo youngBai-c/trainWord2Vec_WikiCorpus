@@ -92,20 +92,16 @@ except IOError:
 
 ```python
 import logging
-
 from gensim.models import word2vec
 
 def main():
 
     logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
-    sentences = word2vec.LineSentence("wiki_seg.txt")
+    sentences = word2vec.LineSentence("wiki_texts.txt")
     model = word2vec.Word2Vec(sentences, size=250,window=5, min_count=5,workers=multiprocessing.cpu_count())
 
     #保存模型
     model.save("word2vec.model")
-
-    #模型读取方式
-    # model = word2vec.Word2Vec.load("your_model_name")
 
 if __name__ == "__main__":
     main()
@@ -137,7 +133,7 @@ class gensim.models.word2vec.Word2Vec(sentences=None, size=100, alpha=0.025, win
 - alpha ：机器学习中的学习率，逐渐收敛于min_count
 - window ：但前词能前后看的字数
 - workers ：线程数目，一般不大于4
-- min_count ：若某个词出現的次数小于min_count，那它就不会被视为训练对象
+- min_count ：若某个词出现的次数小于min_count，那它就不会被视为训练对象
 
 ## 词向量实验
 
@@ -147,12 +143,14 @@ class gensim.models.word2vec.Word2Vec(sentences=None, size=100, alpha=0.025, win
 import gensim
 # import gensim.models import Word2Vec
 
-# 载入模型
+# 模型读取方式
 model = gensim.models.Word2Vec.load('C:\ProgramData\wordvec\word2vec.model');
 
 # 查看词向量
 vec = model['man'];
 print('man:',vec);
+# man [ 2.21187860e-01  3.63909841e+00 ..... 
+#      -7.56549418e-01 -2.68334198e+00] 250维向量
 
 # 相似词
 words = model.most_similar("queen");
@@ -177,8 +175,6 @@ print(similar_rate);
 # 0.7089453
 
 ```
-
-
 
 ## Note
 
