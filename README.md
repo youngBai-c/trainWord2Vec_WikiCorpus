@@ -140,43 +140,59 @@ class gensim.models.word2vec.Word2Vec(sentences=None, size=100, alpha=0.025, win
 运行 `python test_word2vec.py`:
 
 ```python
+from pyemd import emd
 import gensim
 # import gensim.models import Word2Vec
 
 # 模型读取方式
 model = gensim.models.Word2Vec.load('C:\ProgramData\wordvec\word2vec.model');
 
-# 查看词向量
+# 查看词向量 | 维度
 vec = model['man'];
 print('man:',vec);
+print('Shape:',vec.shape);
 # man [ 2.21187860e-01  3.63909841e+00 ..... 
 #      -7.56549418e-01 -2.68334198e+00] 250维向量
 
-# 相似词
+# 前N个最相似词
 words = model.most_similar("queen");
 print("The most similar words: ");
 for w in words:
     print(w);
-# The most similar words:
-('princess', 0.6809253692626953)
-('king', 0.6797294020652771)
-('empress', 0.6213021278381348)
-('monarch', 0.5521630048751831)
-('sambiria', 0.5495050549507141)
-('queenship', 0.5352757573127747)
-('maconchy', 0.5315067172050476)
-('rasoherina', 0.5313612222671509)
-('coronation', 0.5288991928100586)
-('crown', 0.5255087018013)
     
-# 相似率
+# 余弦相似度(w1,w2)
 similar_rate = model.similarity("man","woman");
 print(similar_rate);  
 # 0.7089453
+
+result = model.similar_by_word("cat");
+print(result);
+# ('dog', 0.755760908126831),
+
+# 余弦相似度(v1,v2)
+similar_rate = model.n_similarity(['sushi', 'shop'], ['japanese', 'restaurant']);
+print(similar_rate);  
+# 0.6058457
+
+# 找不属于同一类的word
+word = model.doesnt_match("woman man cat boy".split());
+print(word);
+
+# 词移动距离
+sentence_obama = 'Obama speaks to the media in Illinois'.lower().split()
+sentence_president = 'The president greets the press in Chicago'.lower().split()
+dis = model.wmdistance(sentence_obama, sentence_president)
+print(dis); 
+# 23.09102023507841
 
 ```
 
 ## Note
 
 - 获取语料：运行process_wiki.py，大约4小时多后，得到 15.8G的wiki_texts.txt文件
-- 训练模型：运行train_word2vec_model，大约5小时后得大小为153M的word2vec.model
+
+- 训练模型：运行train_word2vec_model，大约5小时后得大小为153M的word2vec.model文件
+
+- 将min_count设置为2000，重新训练，使用t-SNE将单词向量降到二维可视平面，用Matplot绘制降维结果，模型可以分类出很多相关语义组。
+
+  ![语义聚类可视化](C:\Users\baiyo\Pictures\批注 2020-07-02 185927.png)
