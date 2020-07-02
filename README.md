@@ -195,4 +195,4 @@ print(dis);
 
 - 将min_count设置为2000，重新训练，使用t-SNE将单词向量降到二维可视平面，用Matplot绘制降维结果，模型可以分类出很多相关语义组。
 
-  ![语义聚类可视化](C:\Users\baiyo\Pictures\批注 2020-07-02 185927.png)
+  ![语义聚类可视化](view.png)
