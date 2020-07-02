@@ -131,7 +131,7 @@ class gensim.models.word2vec.Word2Vec(sentences=None, size=100, alpha=0.025, win
 - sentences ：要训练的句子集合
 - size ：表示训练出的词向量有几维
 - alpha ：机器学习中的学习率，逐渐收敛于min_count
-- window ：但前词能前后看的字数
+- window ：当前词能前后看的字数
 - workers ：线程数目，一般不大于4
 - min_count ：若某个词出现的次数小于min_count，那它就不会被视为训练对象
 
