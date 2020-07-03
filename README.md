@@ -19,7 +19,7 @@ pip install --upgrade gensim
 
 
 ​	维基百科语料下载完成，得到的是一份xml文件，不用担心怎么使用，gensim内置的WikiCorpus类可以方便提取
-文章的标题与内容。具体方法是get_texts( )。
+文章的标题与内容。具体方法是get_texts( )，运行 `pyhon process_wiki.py`。
 
 ```python
 import logging
@@ -61,8 +61,8 @@ C:\Users\baiyo\anaconda3\lib\site-packages\gensim\utils.py:1268: UserWarning: de
 2020-07-01 17:30:36,095 : INFO : 已处理 10000 篇文章
 2020-07-01 17:32:16,685 : INFO : 已处理 20000 篇文章
 ....
-2020-07-01 21:51:06,776 : INFO : 已處理 4850000 篇文章
-2020-07-01 21:51:38,642 : INFO : 已處理 4860000 篇文章
+2020-07-01 21:51:06,776 : INFO : 已处理 4850000 篇文章
+2020-07-01 21:51:38,642 : INFO : 已处理 4860000 篇文章
 2020-07-01 21:51:41,850 : INFO : finished iterating over Wikipedia corpus of 4860724 documents with 2755160976 positions (total 20358442 articles, 2827402342 positions before pruning articles shorter than 50 words)
 ```
 
@@ -98,7 +98,7 @@ def main():
 
     logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
     sentences = word2vec.LineSentence("wiki_texts.txt")
-    model = word2vec.Word2Vec(sentences, size=250,window=5, min_count=5,workers=multiprocessing.cpu_count())
+    model = word2vec.Word2Vec(sentences, size=128,window=5, min_count=5,workers=multiprocessing.cpu_count())
 
     #保存模型
     model.save("word2vec.model")
@@ -152,7 +152,7 @@ vec = model['man'];
 print('man:',vec);
 print('Shape:',vec.shape);
 # man [ 2.21187860e-01  3.63909841e+00 ..... 
-#      -7.56549418e-01 -2.68334198e+00] 250维向量
+#      -7.56549418e-01 -2.68334198e+00] 128维向量
 
 # 前N个最相似词
 words = model.most_similar("queen");
@@ -163,27 +163,28 @@ for w in words:
 # 余弦相似度(w1,w2)
 similar_rate = model.similarity("man","woman");
 print(similar_rate);  
-# 0.7089453
+# 0.7482544
 
 result = model.similar_by_word("cat");
 print(result);
-# ('dog', 0.755760908126831),
+# ('dog', 0.8188809752464294), ('rabbit', 0.8093816041946411),.....('drat', 0.7274730205535889)
 
 # 余弦相似度(v1,v2)
 similar_rate = model.n_similarity(['sushi', 'shop'], ['japanese', 'restaurant']);
 print(similar_rate);  
-# 0.6058457
+# 0.66976655
 
 # 找不属于同一类的word
 word = model.doesnt_match("woman man cat boy".split());
 print(word);
+# cat
 
 # 词移动距离
 sentence_obama = 'Obama speaks to the media in Illinois'.lower().split()
 sentence_president = 'The president greets the press in Chicago'.lower().split()
 dis = model.wmdistance(sentence_obama, sentence_president)
 print(dis); 
-# 23.09102023507841
+# 21.248108107887614
 
 ```
 
