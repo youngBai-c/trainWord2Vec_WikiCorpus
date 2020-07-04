@@ -33,20 +33,20 @@ def main():
         print("Usage: python3 " + sys.argv[0] + " wiki_data_path")
         exit()
 
-    logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
-    wiki_corpus = WikiCorpus(sys.argv[1], dictionary={})
-    texts_num = 0
+    logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)  # 建立日志记录
+    wiki_corpus = WikiCorpus(sys.argv[1], dictionary={})   # 传递一个带标记的句子列表作为Word2Vec的输入
+    texts_num = 0   #计数器
 
     with open("wiki_texts.txt",'w',encoding='utf-8') as output:
         for text in wiki_corpus.get_texts():  # 读入xml文件
             output.write(' '.join(text) + '\n')
             texts_num += 1
+	    
             if texts_num % 10000 == 0: # 每处理10000条-显示
                 logging.info("已处理 %d 篇文章" % texts_num)
 
 if __name__ == "__main__":
     main()
-
 ```
 
 - get_texts()：迭代每一篇文章，返回一个tokens list
